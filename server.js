@@ -80,6 +80,26 @@ app.post('/api/breweries', (request, response) => {
     });
 })
 
+app.post('/api/beers', (request, response) => {
+  const { beer } = request.body;
+
+  for (let requiredParameter of ['name', 'style', 'abv', 'availability']){
+    if (!beer[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `Expected format: {name: <string>, style: <string>, abv: <string>, availability: <string>}. You're missing a "${requiredParameter}" property`})
+    }
+  }
+
+  database('beers').insert(beer, 'id')
+    .then(beerId => {
+      response.status(201).json({...beer, id: beerId[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error})
+    });
+})
+
 
 
 app.listen(app.get('port'), () => {
