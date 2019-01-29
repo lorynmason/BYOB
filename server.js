@@ -150,6 +150,19 @@ app.put('/api/breweries/:id', (request, response) => {
     })
 });
 
+app.put('/api/beers/:id', (request, response) => {
+  const { id } = request.params
+
+  database('beers').where('id', request.params.id)
+    .update({name: request.body.name, style: request.body.style, abv: request.body.abv, availability: request.body.availability})
+    .then(() => {
+      response.status(200).json(id);
+    })
+    .catch(error => {
+      response.status(500).json({ error: error.message })
+    })
+});
+
 
 
 app.listen(app.get('port'), () => {
