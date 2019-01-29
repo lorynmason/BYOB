@@ -2,6 +2,6 @@
 
 Start each commit message with "Fixes" followed by the issue number the code addresses, followed by a description of code/issue fixed, keep messages brief, if you need to include a longer discription do so in the pull request.
 
-#### exapmle:
+#### example:
 
-"Fixes #issue number, desciption"
+"Fixes #issue-number, desciption"
