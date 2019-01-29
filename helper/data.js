@@ -1,4 +1,4 @@
-export const breweries = [
+const breweryData = [
   {
     name: 'Avery Brewing Company',
     city: 'Boulder',
@@ -330,3 +330,5 @@ export const breweries = [
     ]
   }
 ]
+
+module.exports = breweryData;

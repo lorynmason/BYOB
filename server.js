@@ -22,19 +22,29 @@ app.get('/api/breweries', (request, response) => {
     });
 });
 
-app.get('/api/breweries/:id/beers', (request, response) => {
-  const id = parseInt(request.params.id)
-  database('beers').select()
-    .then((beers) => {
-      const matchingBeers = beers.filter((beer) => {
-        return beer.brewery_id === id
-      })
-      response.status(200).json(matchingBeers)
-    })
-    .catch((error) => {
-      response.status(500).json({ error });
-    })
-});
+// app.get('/api/beers', (request, response) => {
+//   database('beers').select()
+//     .then((beers) => {
+//       response.status(200).json(beers);
+//     })
+//     .catch((error) => {
+//       response.status(500).json({ error });
+//     });
+// });
+
+// app.get('/api/breweries/:id/beers', (request, response) => {
+//   const id = parseInt(request.params.id)
+//   database('beers').select()
+//     .then((beers) => {
+//       const matchingBeers = beers.filter((beer) => {
+//         return beer.brewery_id === id
+//       })
+//       response.status(200).json(matchingBeers)
+//     })
+//     .catch((error) => {
+//       response.status(500).json({ error });
+//     })
+// });
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
