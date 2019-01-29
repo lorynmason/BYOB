@@ -100,6 +100,29 @@ app.post('/api/beers', (request, response) => {
     });
 })
 
+app.delete('/api/beers/:id', (request, response) => {
+  const beerId = parseInt(request.params.id)
+  database('beers').where('id', beerId).delete()
+    .then(beer => {
+      response.status(201).send('deleted')
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
+
+app.delete('/api/breweries/:id', (request, response) => {
+  const breweryId = request.params.id;
+  database('beers').select().where('brewery_id', breweryId).del()
+  .then((breweries) => {
+    response.status(200).json(breweries)
+  })
+  database('breweries').select().where('id', breweryId).del()
+  .catch((error) => {
+    response.status(500).json({ error });
+  });
+})
+
 
 
 app.listen(app.get('port'), () => {
