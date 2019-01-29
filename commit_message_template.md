@@ -4,4 +4,4 @@ Start each commit message with "Fixes" followed by the issue number the code add
 
 #### exapmle:
 
-"Fixes #<issue number>, <desciption>"
+"Fixes #issue number, desciption"
