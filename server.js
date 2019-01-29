@@ -46,14 +46,28 @@ app.get('/api/breweries/:id/beers', (request, response) => {
     })
 });
 
-app.get('/api/beers/:beer_id', (request, response) => {
-  const beerId = parseInt(request.params.beer_id)
+app.get('/api/beers/:id', (request, response) => {
+  const beerId = parseInt(request.params.id)
   database('beers').select()
   .then((beers) => {
     const matchingBeer = beers.find((beer) => {
       return beer.id === beerId
     })
     response.status(200).json(matchingBeer)
+  })
+  .catch((error) => {
+    response.status(500).json({ error });
+  })
+});
+
+app.get('/api/breweries/:id', (request, response) => {
+  const breweryId = parseInt(request.params.id)
+  database('breweries').select()
+  .then((breweries) => {
+    const matchingBrewery = breweries.find((brewery) => {
+      return brewery.id === breweryId
+    })
+    response.status(200).json(matchingBrewery)
   })
   .catch((error) => {
     response.status(500).json({ error });
@@ -122,6 +136,19 @@ app.delete('/api/breweries/:id', (request, response) => {
     response.status(500).json({ error });
   });
 })
+
+app.put('/api/breweries/:id', (request, response) => {
+  const { id } = request.params
+
+  database('breweries').where('id', request.params.id)
+    .update({name: request.body.name, city: request.body.city, food: request.body.food, dog_friendly: request.body.dog_friendly, outdoor_seating: request.body.outdoor_seating, website: request.body.website})
+    .then(() => {
+      response.status(200).json(id);
+    })
+    .catch(error => {
+      response.status(500).json({ error: error.message })
+    })
+});
 
 
 
