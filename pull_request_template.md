@@ -8,7 +8,7 @@ _If relevant, include screenshots of the *before* state of the application/test 
 
 **Before:**
 
-`![semantic description of "before" screenshot](link to screenshot hosted somewhere stable like imgur, etc)`
+`Screenshot and description of 'Before'`
 
 The changes made to the codebase in this PR:
 
@@ -23,26 +23,27 @@ merely highlight some key changes if they are unusual or especially relevant.
 ```
 **After:**
 
-`![semantic description of "after" screenshot](link to screenshot hosted somewhere stable like imgur, etc)`
+`Screenshot and description of 'After'`
 
 ## Testing 
 
 These changes affect the following tests:
 
-`![Screenshot of test suite output](link to screenshot hosted somewhere stable like imgur, etc)`
+
+`Screenshot and description of test suite output`
 
 As a result, issue #`<NUMBER>` was created to refactor those tests: `[Issue #<NUMBER>](link to the github/waffle/etc issue)`
 
-_ALTERNATIVELY, if no tests are adversely affected:_
+if no tests are adversely affected:
 
 These changes did not affect the existing test suite.
 
-`![Screenshot of unaffected "after" test suite output](link to screenshot hosted somewhere stable like imgur, etc)`
+`Screenshot and description of test suite output`
 
 ## Requests for review
 
 Areas of concern:
 
 * List areas you would like reviewers to focus on
-* Ex: The function beginning on line 72 is not pure; would love to have suggestions for improvement
+* Ex: The function beginning on line 72 is not pure; would love to have suggestions for improvement or ways to refactor
 * This is your opportunity to solicit particular attention for areas of code you are concerned about
