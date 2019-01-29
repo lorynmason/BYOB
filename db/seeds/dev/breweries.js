@@ -1,51 +1,4 @@
-let breweryData = [{
-  id: 1, 
-  name: 'Rouge',
-  city: 'portland',
-  food: 'yes',
-  dog_friendly: 'yes',
-  outdoor_seating: 'yes',
-  website: 'www.rouge.com', 
-  beers: [
-    {
-      abv: '5.6%',
-      style: 'ale',  
-      name: 'dead guy',
-      availabilty: 'year round',
-      brewery_id: 1  
-    }, { 
-      abv: '5.6%',
-      style: 'ale',  
-      name: 'voodoo donut',
-      availabilty: 'year round',
-      brewery_id: 1
-    }
-  ]
-}, {
-  id: 2, 
-  name: '10 Barrel',
-  city: 'Denver',
-  food: 'yes',
-  dog_friendly: 'yes',
-  outdoor_seating: 'yes',
-  website: 'www.rouge.com', 
-  beers: [
-    {
-      abv: '5.6%',
-      style: 'ale',  
-      name: 'dead guy',
-      availabilty: 'year round',
-      brewery_id: 2 
-    }, { 
-      abv: '5.6%',
-      style: 'ale',  
-      name: 'voodoo donut',
-      availabilty: 'year round',
-      brewery_id: 2 
-    }
-  ]
-}
-]
+const breweryData = require('../../../helper/data')
 
 const addBrewery = (knex, brewery) => {
   return knex('breweries').insert({
@@ -55,19 +8,18 @@ const addBrewery = (knex, brewery) => {
     dog_friendly: brewery.dog_friendly,
     outdoor_seating: brewery.outdoor_seating,
     website: brewery.website, 
-    beers: brewery.beers
+
   }, 'id')
   .then(breweryIDs => {
     let beerPromises = brewery.beers.map(beer => {
       return createBeers(knex, {
-        abv: beer.abv,
-        style: beer.style,  
         name: beer.name,
-        availabilty: beer.availabilty,
+        style: beer.style,  
+        abv: beer.abv,
+        availability: beer.availability,
         brewery_id: breweryIDs[0]
       })
     })
-
     return Promise.all(beerPromises)
   })
 }
