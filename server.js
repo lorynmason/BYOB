@@ -15,13 +15,27 @@ app.locals.title = 'Colorado Brews';
 
 //loryn
 app.get('/api/breweries', (request, response) => {
-  database('breweries').select()
-    .then((breweries) => {
-      response.status(200).json(breweries);
-    })
-    .catch((error) => {
-      response.status(500).json({ error });
-    });
+  const { originalUrl, query } = request;
+  if(originalUrl.includes('?')) {
+    if(query.city) {
+      database('breweries').where('city', query.city).select()
+        .then((breweries) => {
+          response.status(200).json(breweries)
+        })
+        .catch((error) => {
+          response.status(500).json({ error });
+        })
+    }
+  } else {
+    database('breweries').select()
+      .then((breweries) => {
+        response.status(200).json(breweries);
+      })
+      .catch((error) => {
+        response.status(500).json({ error });
+      });
+  }
+
 });
 
 //ash
