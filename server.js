@@ -12,6 +12,8 @@ app.use(express.static('public'));
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Colorado Brews';
 
+
+//loryn
 app.get('/api/breweries', (request, response) => {
   database('breweries').select()
     .then((breweries) => {
@@ -22,6 +24,7 @@ app.get('/api/breweries', (request, response) => {
     });
 });
 
+//ash
 app.get('/api/beers', (request, response) => {
   database('beers').select()
     .then((beers) => {
@@ -31,7 +34,7 @@ app.get('/api/beers', (request, response) => {
       response.status(500).json({ error });
     });
 });
-
+//loryn
 app.get('/api/breweries/:id/beers', (request, response) => {
   const id = parseInt(request.params.id)
   database('beers').select()
@@ -45,7 +48,7 @@ app.get('/api/breweries/:id/beers', (request, response) => {
       response.status(500).json({ error });
     })
 });
-
+//ash
 app.get('/api/beers/:id', (request, response) => {
   const beerId = parseInt(request.params.id)
   database('beers').select()
@@ -59,7 +62,7 @@ app.get('/api/beers/:id', (request, response) => {
     response.status(500).json({ error });
   })
 });
-
+//loryn
 app.get('/api/breweries/:id', (request, response) => {
   const breweryId = parseInt(request.params.id)
   database('breweries').select()
@@ -73,7 +76,7 @@ app.get('/api/breweries/:id', (request, response) => {
     response.status(500).json({ error });
   })
 });
-
+//ash
 app.post('/api/breweries', (request, response) => {
   const { brewery } = request.body;
 
@@ -93,7 +96,7 @@ app.post('/api/breweries', (request, response) => {
       response.status(500).json({ error})
     });
 })
-
+//loryn
 app.post('/api/beers', (request, response) => {
   const { beer } = request.body;
 
@@ -113,7 +116,7 @@ app.post('/api/beers', (request, response) => {
       response.status(500).json({ error})
     });
 })
-
+//ash
 app.delete('/api/beers/:id', (request, response) => {
   const beerId = parseInt(request.params.id)
   database('beers').where('id', beerId).delete()
@@ -124,7 +127,7 @@ app.delete('/api/beers/:id', (request, response) => {
       response.status(500).json({ error })
     })
 })
-
+//loryn
 app.delete('/api/breweries/:id', (request, response) => {
   const breweryId = request.params.id;
   database('beers').select().where('brewery_id', breweryId).del()
@@ -136,7 +139,7 @@ app.delete('/api/breweries/:id', (request, response) => {
     response.status(500).json({ error });
   });
 })
-
+//ash
 app.put('/api/breweries/:id', (request, response) => {
   const { id } = request.params
 
@@ -149,7 +152,7 @@ app.put('/api/breweries/:id', (request, response) => {
       response.status(500).json({ error: error.message })
     })
 });
-
+//loryn
 app.put('/api/beers/:id', (request, response) => {
   const { id } = request.params
 
@@ -162,8 +165,6 @@ app.put('/api/beers/:id', (request, response) => {
       response.status(500).json({ error: error.message })
     })
 });
-
-
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
