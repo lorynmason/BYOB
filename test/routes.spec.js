@@ -5,38 +5,26 @@ const server = require('../server');
 const environment = process.env.NODE_ENV || 'test';
 const configuration = require('../knexfile')[environment];
 const database = require('knex')(configuration);
-
+require('events').EventEmitter.prototype._maxListeners = 100
 chai.use(chaiHttp);
 
 
 describe('API Routes', () => {
 
-  // beforeEach(done => {
-  //   database.migrate.rollback()
-  //     .then(() => {
-  //       database.migrate.latest()
-  //         .then(() => {
-  //           return database.seed.run()
-  //             .then(() => {
-  //               done();
-  //             })
-  //         })
-  //     })
-  // })
+  beforeEach(done => {
+    database.migrate.rollback()
+      .then(() => {
+        database.migrate.latest()
+          .then(() => {
+            return database.seed.run()
+              .then(() => {
+                done();
+              })
+          })
+      })
+  })
 
   describe('/api/breweries', () => {
-    beforeEach(done => {
-      database.migrate.rollback()
-        .then(() => {
-          database.migrate.latest()
-            .then(() => {
-              return database.seed.run()
-                .then(() => {
-                  done();
-                })
-            })
-        })
-    })
     it('should GET: happy: return all the breweries', (done) => {
       chai
       .request(server)
@@ -58,9 +46,9 @@ describe('API Routes', () => {
 
     it('should DELETE: happy: delete a single brewery', done => {
       chai.request(server)
-      .delete('/api/brewery/1')
+      .delete('/api/breweries/3')
       .end((err, response) => {
-        response.should.have.status(200)
+        response.should.have.status(202)
         done()
       })
     })
@@ -131,18 +119,6 @@ describe('API Routes', () => {
   })
 
   describe('/api/beers', () => {
-    // beforeEach(done => {
-    //   database.migrate.rollback()
-    //     .then(() => {
-    //       database.migrate.latest()
-    //         .then(() => {
-    //           return database.seed.run()
-    //             .then(() => {
-    //               done();
-    //             })
-    //         })
-    //     })
-    // })
     it('should GET: happy: array of all beers', done => {
       chai.request(server)
       .get('/api/beers')
@@ -181,18 +157,6 @@ describe('API Routes', () => {
     })
 
   describe('/api/beers/:id', () => {
-    // beforeEach(done => {
-    //   database.migrate.rollback()
-    //     .then(() => {
-    //       database.migrate.latest()
-    //         .then(() => {
-    //           return database.seed.run()
-    //             .then(() => {
-    //               done();
-    //             })
-    //         })
-    //     })
-    // })
     it('should GET: happy: a single beer', done => {
       chai.request(server)
       .get('/api/beers/1')
@@ -204,9 +168,9 @@ describe('API Routes', () => {
       })
     })
 
-    it('should PUT: happy: edit a beer', () => {
+    it('should PUT: happy: edit a beer', (done) => {
       chai.request(server)
-      .put('/api/beers/:id')
+      .put('/api/beers/1')
       .send({
         abv: '8.3%',
         style: 'ale',  
@@ -215,7 +179,7 @@ describe('API Routes', () => {
         brewery_id: 2 
       })
       .end((err, response) => {  
-        response.should.have.status(201);
+        response.should.have.status(200);
         done();
       });
     })
@@ -224,7 +188,6 @@ describe('API Routes', () => {
       chai.request(server)
       .delete('/api/beers/1')
       .end((err, response) => {
-        expect(err).to.be.null
         response.should.have.status(201)
         done()
       })
@@ -241,18 +204,6 @@ describe('API Routes', () => {
   })
 
   describe('/api/breweries/:id', () => {
-    // beforeEach(done => {
-    //   database.migrate.rollback()
-    //     .then(() => {
-    //       database.migrate.latest()
-    //         .then(() => {
-    //           return database.seed.run()
-    //             .then(() => {
-    //               done();
-    //             })
-    //         })
-    //     })
-    // })
     it('should PUT: happy: update brewery entry', done => {
       chai.request(server)
       .put('/api/breweries/1')
@@ -272,7 +223,7 @@ describe('API Routes', () => {
 
     it('should PUT: sad: not update brewery entry if incomplete', done => {
       chai.request(server)
-      .put('/api/breweries/:id')
+      .put('/api/breweries/1')
       .send({})
       .end((err, response) => {
         response.should.have.status(500)
@@ -282,31 +233,19 @@ describe('API Routes', () => {
   })
 })
   describe('/api/breweries/:id/beers', () => {
-    // beforeEach(done => {
-    //   database.migrate.rollback()
-    //     .then(() => {
-    //       database.migrate.latest()
-    //         .then(() => {
-    //           return database.seed.run()
-    //             .then(() => {
-    //               done();
-    //             })
-    //         })
-    //     })
-    // })
-    it('should GET: happy: return a single brewey\'s beers matching passed in id', (done) => {
+    it('should GET: happy: return a single brewery\'s beers matching passed in id', (done) => {
       chai.request(server)
       .get('/api/breweries/1/beers')
       .end((err, response) => {
         response.should.have.status(200);
-        response.should.be.json;
-        response.body.should.be.a('array');
-        response.body.length.should.equal(2);
-        response.body[0].should.have.property('abv');
-        response.body[0].should.have.property('name');
-        response.body[0].should.have.property('style');
-        response.body[0].should.have.property('availability');
-        response.body[0].should.have.property('brewery_id');    
+        response.should.be.json
+        response.body.should.be.a('array')
+        response.body.length.should.equal(2)
+        response.body[0].should.have.property('abv')
+        response.body[0].should.have.property('name')
+        response.body[0].should.have.property('style')
+        response.body[0].should.have.property('availability')
+        response.body[0].should.have.property('brewery_id')   
         done();
       });
     })

@@ -127,16 +127,20 @@ app.delete('/api/beers/:id', (request, response) => {
 })
 //loryn
 app.delete('/api/breweries/:id', (request, response) => {
-  const breweryId = request.params.id;
-  database('beers').select().where('brewery_id', breweryId).del()
-  .then((breweries) => {
-    response.status(200).json(breweries)
+  const breweryId = parseInt(request.params.id)
+  database('beers')
+    .where('brewery_id', breweryId).del()
+    .then(() => {
+      database('breweries').where('id', breweryId).del()
+        .then((brewery) => {
+          response.status(202).json({brewery})
+        })
+        .catch(error => {
+        response.status(501).json({error})
+      })
+    })
   })
-  database('breweries').select().where('id', breweryId).del()
-  .catch((error) => {
-    response.status(500).json({ error });
-  });
-})
+
 //ash
 app.put('/api/breweries/:id', (request, response) => {
   const { id } = request.params
