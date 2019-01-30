@@ -12,7 +12,6 @@ app.use(express.static('public'));
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Colorado Brews';
 
-
 //loryn
 app.get('/api/breweries', (request, response) => {
   database('breweries').select()
@@ -28,7 +27,6 @@ app.get('/api/breweries', (request, response) => {
 app.get('/api/beers', (request, response) => {
   database('beers').select()
     .then((beers) => {
-      console.log(beers)
       response.status(200).json(beers);
     })
     .catch((error) => {
@@ -100,12 +98,11 @@ app.post('/api/breweries', (request, response) => {
 //loryn
 app.post('/api/beers', (request, response) => {
   const { beer } = request.body;
-
-  for (let requiredParameter of ['name', 'style', 'abv', 'availability']){
+  for (let requiredParameter of ['name', 'style', 'abv', 'availability', 'brewery_id']){
     if (!beer[requiredParameter]) {
       return response
         .status(422)
-        .send({ error: `Expected format: {name: <string>, style: <string>, abv: <string>, availability: <string>}. You're missing a "${requiredParameter}" property`})
+        .send({ error: `Expected format: {name: <string>, style: <string>, abv: <string>, availability: <string>}, brewery_id: <number>. You're missing a "${requiredParameter}" property`})
     }
   }
 
@@ -146,7 +143,7 @@ app.put('/api/breweries/:id', (request, response) => {
 
   database('breweries').where('id', request.params.id)
     .update({name: request.body.name, city: request.body.city, food: request.body.food, dog_friendly: request.body.dog_friendly, outdoor_seating: request.body.outdoor_seating, website: request.body.website})
-    .then(() => {
+    .then((id) => {
       response.status(200).json(id);
     })
     .catch(error => {
