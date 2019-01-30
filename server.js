@@ -28,6 +28,7 @@ app.get('/api/breweries', (request, response) => {
 app.get('/api/beers', (request, response) => {
   database('beers').select()
     .then((beers) => {
+      console.log(beers)
       response.status(200).json(beers);
     })
     .catch((error) => {
@@ -169,3 +170,5 @@ app.put('/api/beers/:id', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
+
+module.exports = app;
