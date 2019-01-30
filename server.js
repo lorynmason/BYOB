@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Colorado Brews';
 
-//loryn
+
 app.get('/api/breweries', (request, response) => {
   const { originalUrl, query } = request;
   if(originalUrl.includes('?')) {
@@ -37,45 +37,6 @@ app.get('/api/breweries', (request, response) => {
 
 });
 
-//ash
-app.get('/api/beers', (request, response) => {
-  database('beers').select()
-    .then((beers) => {
-      response.status(200).json(beers);
-    })
-    .catch((error) => {
-      response.status(500).json({ error });
-    });
-});
-//loryn
-app.get('/api/breweries/:id/beers', (request, response) => {
-  const id = parseInt(request.params.id)
-  database('beers').select()
-    .then((beers) => {
-      const matchingBeers = beers.filter((beer) => {
-        return beer.brewery_id === id
-      })
-      response.status(200).json(matchingBeers)
-    })
-    .catch((error) => {
-      response.status(500).json({ error });
-    })
-});
-//ash
-app.get('/api/beers/:id', (request, response) => {
-  const beerId = parseInt(request.params.id)
-  database('beers').select()
-  .then((beers) => {
-    const matchingBeer = beers.find((beer) => {
-      return beer.id === beerId
-    })
-    response.status(200).json(matchingBeer)
-  })
-  .catch((error) => {
-    response.status(500).json({ error });
-  })
-});
-//loryn
 app.get('/api/breweries/:id', (request, response) => {
   const breweryId = parseInt(request.params.id)
   database('breweries').select()
@@ -89,7 +50,21 @@ app.get('/api/breweries/:id', (request, response) => {
     response.status(500).json({ error });
   })
 });
-//ash
+
+app.get('/api/breweries/:id/beers', (request, response) => {
+  const id = parseInt(request.params.id)
+  database('beers').select()
+    .then((beers) => {
+      const matchingBeers = beers.filter((beer) => {
+        return beer.brewery_id === id
+      })
+      response.status(200).json(matchingBeers)
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    })
+});
+
 app.post('/api/breweries', (request, response) => {
   const { brewery } = request.body;
 
@@ -109,7 +84,61 @@ app.post('/api/breweries', (request, response) => {
       response.status(500).json({ error})
     });
 })
-//loryn
+
+app.delete('/api/breweries/:id', (request, response) => {
+  const breweryId = parseInt(request.params.id)
+  database('beers')
+    .where('brewery_id', breweryId).del()
+    .then(() => {
+      database('breweries').where('id', breweryId).del()
+        .then((brewery) => {
+          response.status(202).json({brewery})
+        })
+        .catch(error => {
+        response.status(501).json({error})
+      })
+    })
+  })
+
+app.put('/api/breweries/:id', (request, response) => {
+  const { id } = request.params
+
+  database('breweries').where('id', request.params.id)
+    .update({name: request.body.name, city: request.body.city, food: request.body.food, dog_friendly: request.body.dog_friendly, outdoor_seating: request.body.outdoor_seating, website: request.body.website})
+    .then((id) => {
+      response.status(200).json(id);
+    })
+    .catch(error => {
+      response.status(500).json({ error: error.message })
+    })
+});
+
+
+app.get('/api/beers', (request, response) => {
+  database('beers').select()
+    .then((beers) => {
+      response.status(200).json(beers);
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
+});
+
+
+app.get('/api/beers/:id', (request, response) => {
+  const beerId = parseInt(request.params.id)
+  database('beers').select()
+  .then((beers) => {
+    const matchingBeer = beers.find((beer) => {
+      return beer.id === beerId
+    })
+    response.status(200).json(matchingBeer)
+  })
+  .catch((error) => {
+    response.status(500).json({ error });
+  })
+});
+
 app.post('/api/beers', (request, response) => {
   const { beer } = request.body;
   for (let requiredParameter of ['name', 'style', 'abv', 'availability', 'brewery_id']){
@@ -128,7 +157,7 @@ app.post('/api/beers', (request, response) => {
       response.status(500).json({ error})
     });
 })
-//ash
+
 app.delete('/api/beers/:id', (request, response) => {
   const beerId = parseInt(request.params.id)
   database('beers').where('id', beerId).delete()
@@ -139,36 +168,7 @@ app.delete('/api/beers/:id', (request, response) => {
       response.status(500).json({ error })
     })
 })
-//loryn
-app.delete('/api/breweries/:id', (request, response) => {
-  const breweryId = parseInt(request.params.id)
-  database('beers')
-    .where('brewery_id', breweryId).del()
-    .then(() => {
-      database('breweries').where('id', breweryId).del()
-        .then((brewery) => {
-          response.status(202).json({brewery})
-        })
-        .catch(error => {
-        response.status(501).json({error})
-      })
-    })
-  })
 
-//ash
-app.put('/api/breweries/:id', (request, response) => {
-  const { id } = request.params
-
-  database('breweries').where('id', request.params.id)
-    .update({name: request.body.name, city: request.body.city, food: request.body.food, dog_friendly: request.body.dog_friendly, outdoor_seating: request.body.outdoor_seating, website: request.body.website})
-    .then((id) => {
-      response.status(200).json(id);
-    })
-    .catch(error => {
-      response.status(500).json({ error: error.message })
-    })
-});
-//loryn
 app.put('/api/beers/:id', (request, response) => {
   const { id } = request.params
 
