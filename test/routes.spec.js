@@ -10,7 +10,6 @@ chai.use(chaiHttp);
 
 
 describe('API Routes', () => {
-
   beforeEach(done => {
     database.migrate.rollback()
       .then(() => {
@@ -46,9 +45,18 @@ describe('API Routes', () => {
 
     it('should DELETE: happy: delete a single brewery', done => {
       chai.request(server)
-      .delete('/api/breweries/3')
+      .delete('/api/breweries/2')
       .end((err, response) => {
         response.should.have.status(202)
+        done()
+      })
+    })
+
+    it('should DELETE: sad: delete a single brewery', done => {
+      chai.request(server)
+      .delete('/api/breweries/5000000')
+      .end((err, response) => {
+        response.should.have.status(422)
         done()
       })
     })
@@ -70,7 +78,7 @@ describe('API Routes', () => {
         done();
       });
     })
-
+ 
     it('should POST: happy: add a new brewery', done => {
       chai.request(server)
       .post('/api/breweries')
@@ -156,6 +164,20 @@ describe('API Routes', () => {
       });
     })
 
+    it('should POST: sad: should add a beer', (done) => {
+      chai.request(server)
+      .post('/api/beers')
+      .send({beer: {
+        abv: '5.6%',
+        style: 'STOUT'
+      }})
+      .end((err, response) => {
+        response.should.have.status(422);
+        response.body.should.be.a('object');  
+        done();
+      });
+    })
+
   describe('/api/beers/:id', () => {
     it('should GET: happy: a single beer', done => {
       chai.request(server)
@@ -168,9 +190,18 @@ describe('API Routes', () => {
       })
     })
 
+    it('should GET: sad: a single beer', done => {
+      chai.request(server)
+      .get('/api/beers/100')
+      .end((err, response) => {
+        response.should.have.status(420);
+        done()
+      })
+    })
+
     it('should PUT: happy: edit a beer', (done) => {
       chai.request(server)
-      .put('/api/beers/1')
+      .put('/api/beers/2')
       .send({
         abv: '8.3%',
         style: 'ale',  
@@ -180,6 +211,17 @@ describe('API Routes', () => {
       })
       .end((err, response) => {  
         response.should.have.status(200);
+        done();
+      });
+    })
+
+    it('should PUT: sad: edit a beer', (done) => {
+      chai.request(server)
+      .put('/api/beers/1000')
+      .send({ 
+      })
+      .end((err, response) => {  
+        response.should.have.status(500);
         done();
       });
     })
@@ -206,7 +248,7 @@ describe('API Routes', () => {
   describe('/api/breweries/:id', () => {
     it('should PUT: happy: update brewery entry', done => {
       chai.request(server)
-      .put('/api/breweries/1')
+      .put('/api/breweries/2')
       .send({
         name: 'Odell',
         city: 'Fort Collins',
@@ -235,7 +277,7 @@ describe('API Routes', () => {
   describe('/api/breweries/:id/beers', () => {
     it('should GET: happy: return a single brewery\'s beers matching passed in id', (done) => {
       chai.request(server)
-      .get('/api/breweries/1/beers')
+      .get('/api/breweries/2/beers')
       .end((err, response) => {
         response.should.have.status(200);
         response.should.be.json
@@ -246,6 +288,14 @@ describe('API Routes', () => {
         response.body[0].should.have.property('style')
         response.body[0].should.have.property('availability')
         response.body[0].should.have.property('brewery_id')   
+        done();
+      });
+    })
+    it('should GET: sad: return a single brewery\'s beers matching passed in id', (done) => {
+      chai.request(server)
+      .get('/api/breweries/10000/beers')
+      .end((err, response) => {
+        response.should.have.status(422);
         done();
       });
     })
