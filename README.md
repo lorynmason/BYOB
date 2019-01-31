@@ -135,7 +135,7 @@ http://..../api/breweries/?city=Denver
 ## /api/breweries/:id
 ### `GET`
 
-Making an API call to this endpoint returns a breewery with the specified id.
+Making an API call to this endpoint returns a brewery with the specified id.
 
 * brewery id
 * brewery name
@@ -233,7 +233,7 @@ Corresponding brewery:
 }]
 ```
 
-## /api/breweries/
+## /api/breweries
 ### `POST`
 
 Making an API call to this endpoint adds a brewery to the database.
@@ -289,7 +289,7 @@ http://..../api/breweries/1
 
 Making an API call to this endpoint returns all beers.
 
-Data returned for each recipe:
+Data returned for each beer:
 * beer id
 * beer name
 * beer style
