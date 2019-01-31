@@ -8,59 +8,39 @@ Node.js
 NPM
 
 ### Installation
-Clone down this repo
+* Clone down this repo
+* git clone https://github.com/lorynmason/BYOB.git
+* Next install dependencies
+* npm install
 
-git clone https://github.com/lorynmason/BYOB.git
-
-Next install dependencies
-
-npm install
-
-This will install
-
-Express
-Body-parser
-Knex
-PostgreSQL Database
-Mocha
-Chai
-Chai HTTP
+#### This will install
+* Express, Body-parser, Knex, PostgreSQL Database, Mocha, Chai, Chai HTTP
 Start the server with node server.js (or nodemon if you have it installed).
 
-Create local database
-Create database in PostgreSQL:
+* Create local database
+* Create database in PostgreSQL:
+* psql
+* CREATE DATABASE colorado_brews;
 
-psql
+#### Run migrations using:
+* knex migrate:latest
+* Seed database:
+* knex seed:run
 
-CREATE DATABASE colorado_brews;
+#### Running Tests
+* Create local testing environment
+* Create test database in PostgreSQL:
+* psql
+* CREATE DATABASE byob_tests;
 
-Run migrations using:
+#### Run migrations using:
+* NODE_ENV=test knex migrate:latest
 
-knex migrate:latest
+#### Seed test database:
+* NODE_ENV=test knex seed:run
 
-Seed database:
-
-knex seed:run
-
-Running Tests
-Create local testing environment
-Create test database in PostgreSQL:
-
-psql
-
-CREATE DATABASE byob_tests;
-
-Run migrations using:
-
-NODE_ENV=test knex migrate:latest
-
-Seed test database:
-
-NODE_ENV=test knex seed:run
-
-To run the test suite
-
-npm run test
+#### To run the test suite
+* npm run test
 
 Endpoints
 /api/v1/artists
