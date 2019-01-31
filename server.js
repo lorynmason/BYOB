@@ -55,7 +55,11 @@ app.get('/api/breweries/:id/beers', (request, response) => {
       const matchingBeers = beers.filter((beer) => {
         return beer.brewery_id === id
       })
-      response.status(200).json(matchingBeers)
+      if(!matchingBeers.length) {
+      response.status(422).send('No matching brewery')
+      } else {
+        response.status(200).json(matchingBeers)
+      }
     })
     .catch((error) => {
       response.status(500).json({ error });
@@ -69,7 +73,11 @@ app.get('/api/beers/:id', (request, response) => {
     const matchingBeer = beers.find((beer) => {
       return beer.id === beerId
     })
-    response.status(200).json(matchingBeer)
+    if(matchingBeer) {
+      response.status(200).json(matchingBeer)
+    } else {
+      response.status(420).send('NO matching id found')
+    }
   })
   .catch((error) => {
     response.status(500).json({ error });
@@ -147,6 +155,9 @@ app.delete('/api/breweries/:id', (request, response) => {
     .then(() => {
       database('breweries').where('id', breweryId).del()
         .then((brewery) => {
+          if(!brewery) {
+          return response.status(422).send('Brewery not found')
+          }
           response.status(202).json({brewery})
         })
         .catch(error => {
@@ -159,7 +170,7 @@ app.delete('/api/breweries/:id', (request, response) => {
 app.put('/api/breweries/:id', (request, response) => {
   const { id } = request.params
 
-  database('breweries').where('id', request.params.id)
+   database('breweries').where('id', request.params.id)
     .update({name: request.body.name, city: request.body.city, food: request.body.food, dog_friendly: request.body.dog_friendly, outdoor_seating: request.body.outdoor_seating, website: request.body.website})
     .then((id) => {
       response.status(200).json(id);
