@@ -4,6 +4,12 @@ node_js:
 notifications:
   email: false
 services:
- - postgresql
+- postgresql
 before_script:
- - psql -c 'CREATE DATABASE byob_tests;' -U postgres
+- psql -c 'CREATE DATABASE byob_tests;' -U postgres
+deploy:
+  provider: heroku
+  api_key:
+    secure: aSPcR8BVZbQCET2k1BFUFspc3SLqvXYOSqKx5FQJLIclxr1sG00yAspWybf14JlPijbP01ftKR6VVKAjUmpHQHcH2lWp1/HDgAM2QBK/iDPuVe5EpG/dBjBpP8H67jQ3RhtrcH+WSFMhRIARiTWUrJkJDz6sGykZVmK8VKMFvqnXILhEZgHKHkuMeCwIMKnAtK6kcCgIrSUWuT7aw+FdtaeyBpvuNVwJ6J2OmxRPhM4G7wRv9IuT/OFxEL5nw72Cgu2Tnfcg7ggoz1qOJwmoQzcftOTsKs5Q7H7pibPG+pjWL7Y0ySXh5jL/4yYsBwo1lnFrcAKzJ4jNaJuMSLrwqstPxmozUbybXprbM5KdMECcwuKCb3ZtmDs2k59VGUDJcdGGKeg7h0VeNOqaTisgS+r34sTpLrPZ5H8z5i4hpLPYpELojV1f+6ASaUH2i79vHppejqm0tfjMgL/21U2dRf8pJswWJO64/8WXCfAJ/PMyho9qQV5C+cJL26/keyjMjlUSqVTFzQgjuSxFn3RncQFb/TQ1+VOFRROjJVK8twIFL913gH0PZDtpGMEE8f9N/AIDAO4tyqWu5CdAyR8yLYfjVmtbRXwHrUsDRFD+TKDn0rFeFjMTGD4bpAQ3Gk0VdMVN1gnqmPy55aUqjS+36SEernD1XyfVf+6kKtKK0sQ=
+  app: colorado-brews
+  skip_cleanup: true
