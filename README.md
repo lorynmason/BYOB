@@ -42,224 +42,464 @@ Start the server with node server.js (or nodemon if you have it installed).
 #### To run the test suite
 * npm run test
 
-Endpoints
-/api/v1/artists
-To return all artists:
+--------------------------------
+## /api/breweries
+### `GET`
 
-GET /api/v1/artists
+Making an API call to this endpoint returns all breweries.
 
-Expect response to be:
+Data returned for each brewery includes:
+* brewery id
+* brewery name
+* brewery city
+* whether or not the brewery serves food 
+* whether or not the brewery is dog friendly
+* whether or not the brewery has outdoor seating
+* brewery website
+* creation timestamp
+* update timestamp
 
-Status: 200
+##### Example of returned JSON:
+```json
+[{
+    "id": 1,
+    "name": "Odell",
+    "city": "Fort Collins",
+    "food": "no",
+    "dog_friendly": "yes",
+    "outdoor_seating": "yes",
+    "website": "www.odell.com",
+    "created_at": "2018-12-06T18:40:50.931Z",
+    "updated_at": "2018-12-06T18:40:50.931Z"
+  },
+  {
+    "id": 2,
+    "name": "New Belgium",
+    "city": "Fort Collins",
+    "food": "yes",
+    "dog_friendly": "no",
+    "outdoor_seating": "no",
+    "website": "www.newbelgium.com",
+    "created_at": "2018-12-06T18:40:50.931Z",
+    "updated_at": "2018-12-06T18:40:50.931Z"
+  },
+  {
+    "id": 3,
+    "name": "Avery Brewing",
+    "city": "Denver",
+    "food": "yes",
+    "dog_friendly": "yes",
+    "outdoor_seating": "yes",
+    "website": "www.averybrewing.com",
+    "created_at": "2018-12-06T18:40:50.931Z",
+    "updated_at": "2018-12-06T18:40:50.931Z"
+  }]
+```
 
+#### Querying database
+
+Including the brewery city in the URL will return all breweries located in that city.
+
+##### Example query:
+```url
+http://..../api/breweries/?city=Denver
+```
+
+##### Example of returned JSON:
+```json
+[{
+  "id": 22,
+   "name": "10 Barrel Brewing Company",
+   "city": "Denver",
+   "food": "yes",
+   "dog_friendly": "no",
+   "outdoor_seating": "yes",
+   "website": "www.10barrel.com",
+   "created_at": "2019-01-29T17:08:02.602Z",
+   "updated_at": "2019-01-29T17:08:02.602Z"
+},
+{
+  "id": 32,
+  "name": "Black Project Spontaneous & Wild Ales",
+  "city": "Denver",
+  "food": "no",
+  "dog_friendly": "no",
+  "outdoor_seating": "no",
+  "website": "www.blackprojectbeer.com",
+  "created_at": "2019-01-29T17:08:02.612Z",
+  "updated_at": "2019-01-29T17:08:02.612Z"
+ }]
+```
+
+--------------------------------
+## /api/breweries/:id/beers
+### `GET`
+
+Making an API call to this endpoint returns all beers for the breewery with the specified id.
+
+Data returned for each beer:
+* beer id
+* beer name
+* beer style
+* beer abv
+* beer availability
+* corresponding brewery id
+* creation timestamp
+* update timestamp
+
+##### Required:
+An id that corresponds to an beer present in the database must be provided in the URL to return the desired JSON.
+
+URL with specified id:
+```url
+http://..../api/breweries/1/beers
+```
+Corresponding brewery:
+```json
+{
+  "id": 29,
+   "name": "Odell Brewing Company",
+   "city": "Denver",
+   "food": "yes",
+   "dog_friendly": "yes",
+   "outdoor_seating": "yes",
+   "website": "www.odellbrewing.com",
+   "created_at": "2019-01-29T17:08:02.608Z",
+   "updated_at": "2019-01-29T17:08:02.608Z"
+ }
+```
+
+##### Example of returned JSON:
+
+```json
+[{
+   "id": 19,
+   "name": "Gramps",
+   "style": "Oatmeal Stout",
+   "abv": "6.4",
+   "availability": "Special Release",
+   "brewery_id": 29,
+   "created_at": "2019-01-29T17:08:02.625Z",
+   "updated_at": "2019-01-29T17:08:02.625Z"
+  },
+{
+  "id": 20,
+  "name": "Odell IPA",
+  "style": "American IPA",
+  "abv": "7.0",
+  "availability": "Year-Round",
+  "brewery_id": 29,
+  "created_at": "2019-01-29T17:08:02.625Z",
+  "updated_at": "2019-01-29T17:08:02.625Z"
+}]
+```
+
+--------------------------------
+## /api/beers
+### `GET`
+
+Making an API call to this endpoint returns all beers.
+
+Data returned for each recipe:
+* beer id
+* beer name
+* beer style
+* beer abv
+* beer availability
+* corresponding brewery id
+* creation timestamp
+* update timestamp
+
+##### Example of returned JSON:
+```json
+[{
+    "id": 14,
+    "name": "Wanda Mae's Peach Pie",
+    "style": "American Brown Ale",
+    "abv": "5.0",
+    "availability": "Rotating",
+    "brewery_id": 26,
+    "created_at": "2019-01-29T17:08:02.623Z",
+    "updated_at": "2019-01-29T17:08:02.623Z"
+  },
+  {
+    "id": 19,
+    "name": "Gramps",
+    "style": "Oatmeal Stout",
+    "abv": "6.4",
+    "availability": "Special Release",
+    "brewery_id": 29,
+    "created_at": "2019-01-29T17:08:02.625Z",
+    "updated_at": "2019-01-29T17:08:02.625Z"
+  },
+  {
+    "id": 24,
+    "name": "Tripel",
+    "style": "Belgian Tripel",
+    "abv": "7.8",
+    "availability": "Year-Round",
+    "brewery_id": 30,
+    "created_at": "2019-01-29T17:08:02.628Z",
+    "updated_at": "2019-01-29T17:08:02.628Z"
+  }]
+```
+
+### `POST`
+
+Making an API call to this endpoint adds a recipe to the database.
+
+##### Required:
+A correctly formatted recipe object must be provided in the request body in order to `post` to the database. 
+
+##### Example of correctly formatted recipe object:
+```
+{ recipe_name: <STRING>, ingredients: <ARRAY>, steps: <ARRAY> }
+```
+```javascript
+{
+  recipe_name: 'brownie banana bread',
+  ingredients: [
+    {ingredient_name:'Betty Crocker Milk Chocolate brownie mix', aisle: 'baking'}, 
+    {ingredient_name:'bananas', aisle: 'produce'}, 
+    {ingredient_name:'butter', aisle: 'dairy'}, 
+    {ingredient_name:'eggs', aisle: 'dairy'}, 
+    {ingredient_name:'heavy whipping cream', aisle: 'dairy'}, 
+    {ingredient_name:'mini chocolate chips', aisle: 'baking'}, 
+  ],
+  steps: [
+    'preheat oven to 350 degrees F',
+    'line an 8x5-inch loaf pan with parchment paper',
+    'spray the bottom only with cooking spray',
+    'put the brownie mix in a medium bowl',
+    'stir in mashed bananas, butter, eggs, and whipping cream just until combined',
+    'stir in 1 cup of the chocolate chips',
+    'pour the batter into the prepared pan and spread evenly',
+    'sprinkle the remaining chocolate chips on top',
+    'bake 75 to 90 minutes or until a toothpick inserted into the center comes out clean',
+    'cover the bread loosely with foil at about the 1 hour mark to avoid over-browning or burning on top',
+    'cool 20 minutes, then remove the loaf from the pan to a cooling rack until completely cooled'
+  ],
+}
+```
+
+--------------------------------
+## /api/v1/recipes/:id/ingredients
+### `GET`
+
+Making an API call to this endpoint returns all ingredients for the recipe with the specified id given.
+
+Data returned for each ingredient includes:
+* ingredient id
+* ingredient name
+* aisle where ingredient can be located in grocery store
+* creation timestamp
+* update timestamp
+
+##### Required:
+An id that corresponds to a recipe present in the database must be provided in the URL to return the desired JSON.
+
+URL with specified id:
+```url
+http://..../api/vi/recipes/1/ingredients
+```
+
+Corresponding recipe:
+```json
+{
+  "id": 1,
+  "recipe_name": "billy's bootastic bacon & eggs",
+  "created_at": "2018-12-06T18:40:50.886Z",
+  "updated_at": "2018-12-06T18:40:50.886Z"
+}
+```
+
+##### Example of returned JSON:
+```json
 [
-    {
-        "id": 1,
-        "name": "Queen",
-        "genre": "Classic Rock",
-        "created_at": "2018-12-05T15:41:01.994Z",
-        "updated_at": "2018-12-05T15:41:01.994Z"
-    },
-    {
-        "id": 3,
-        "name": "Pentatonix",
-        "genre": "Pop",
-        "created_at": "2018-12-05T15:41:02.003Z",
-        "updated_at": "2018-12-05T15:41:02.003Z"
-    },
-  ...
+  {
+    "id": 1,
+    "ingredient_name": "eggs",
+    "aisle": "dairy",
+    "created_at": "2018-12-06T18:40:50.931Z",
+    "updated_at": "2018-12-06T18:40:50.931Z"
+  },
+  {
+    "id": 2,
+    "ingredient_name": "salt",
+    "aisle": "spices",
+    "created_at": "2018-12-06T18:41:50.931Z",
+    "updated_at": "2018-12-06T18:41:50.931Z"
+  },
+  {
+    "id": 3,
+    "ingredient_name": "black pepper",
+    "aisle": "spices",
+    "created_at": "2018-12-06T18:42:50.931Z",
+    "updated_at": "2018-12-06T18:42:50.931Z"
+  }
 ]
-To return a specific artist:
+```
 
-GET /api/v1/artists/:id
+--------------------------------
+## /api/v1/recipes/:id/steps
+### `GET`
 
-You must pass the artist id in as a parameter to the endpoint.
+Making an API call to this endpoint provides all steps for the recipe with the specified id.
 
-Expect response to be:
+Data returned for each step includes:
+* step id
+* step text
+* recipe id
 
-Status: 200
+##### Required:
+An id that corresponds to a recipe present in the database must be provided in the URL to return the desired JSON.
 
+URL with specified id:
+```url
+http://..../api/vi/recipes/1/steps
+```
+
+Corresponding recipe:
+```json
+{
+  "id": 1,
+  "recipe_name": "billy's bootastic bacon & eggs",
+  "created_at": "2018-12-06T18:40:50.886Z",
+  "updated_at": "2018-12-06T18:40:50.886Z"
+}
+```
+
+##### Example of returned JSON:
+```json
 [
-    {
-        "id": 17,
-        "name": "Mariah Carey",
-        "genre": "hip-hop",
-        "created_at": "2018-12-05T15:41:02.011Z",
-        "updated_at": "2018-12-05T15:41:02.011Z"
-    }
+  {
+    "id": 1,
+    "step_text": "crack eggs over bowl, being careful not to let any shells fall into bowl",
+    "recipe_id": 1
+  },
+  {
+    "id": 2,
+    "step_text": "scramble eggs with fork or whisk until all yolks are broken and mixed with egg whites",
+    "recipe_id": 1
+  },
+  {
+    "id": 3,
+    "step_text": "season with salt and black pepper",
+    "recipe_id": 1
+  },
+  {
+    "id": 4,
+    "step_text": "pour mixture into skillet heated to medium on stovetop",
+    "recipe_id": 1
+  },
+  {
+    "id": 5,
+    "step_text": "continue stirring in skillet until desired texture is reached",
+    "recipe_id": 1
+  },
 ]
-To search for a particular artist without having their id
+```
 
-GET /api/v1/artists?name= write artist name next to the equal sign
+### `POST`
 
-example:
+Making an API call to this endpoint adds a step to the recipe in the database with the specified id.
 
-/api/v1/artists?name=Queen
+##### Required:
+* An id that corresponds to a recipe present in the database must be provided in the URL.
 
-Expect response to be:
+* A correctly formatted step object must be provided in the request body in order to `post` to the database.
 
-Status: 200
+URL with specified id:
+```url
+http://..../api/vi/recipes/1/steps
+```
 
-Your search result will return:
-
-[
-    {
-        "id": 27,
-        "name": "Queen",
-        "genre": "Classic Rock",
-        "created_at": "2018-12-05T15:46:25.764Z",
-        "updated_at": "2018-12-05T15:46:25.764Z"
-    }
-]
-POST /api/v1/artists
-
-Body of request must be in JSON format with the following propeties:
-
+Corresponding recipe:
+```json
 {
-    "name":[string],
-    "genre":[string]
+  "id": 1,
+  "recipe_name": "billy's bootastic bacon & eggs",
+  "created_at": "2018-12-06T18:40:50.886Z",
+  "updated_at": "2018-12-06T18:40:50.886Z"
 }
-Expect response to be: Status: 201
+```
 
+##### Example of correctly formatted step object:
+```
+{ step_text: <STRING> }
+```
+```javascript
 {
-  "id": 5
+  step_text: 'add cheese if desired'
 }
+```
 
-To delete an artist:
+--------------------------------
+## /api/v1/recipes/:id
+### `PUT`
 
-DELETE /api/v1/artists/:id
+Making an API call to this endpoint updates recipe name of the recipe with the specified id.
 
-You must pass the artist id in as a parameter to the endpoint.
+##### Required:
+An id that corresponds to a recipe present in the database must be provided in the URL.
 
-Expect response to be:
+URL with specified id:
+```url
+http://..../api/vi/recipes/1
+```
 
-Status: 201
+### `DELETE`
 
-{
-  "id": 3
-}
-To edit an artist of your choice:
+Making an API call to this endpoint deletes the recipe with the specified id.
 
-PUT /api/v1/artists/:id
+##### Required:
+An id that corresponds to a recipe present in the database must be provided in the URL.
 
-You must pass the artist id in as a parameter to the endpoint.
+URL with specified id:
+```url
+http://..../api/vi/recipes/1
+```
 
-Body of request must be in JSON format with the following propeties:
+--------------------------------
+## /api/v1/recipes/:recipe_id/steps/:step_num
+### `PUT`
 
-{
-    "name":[string],
-    "genre":[string]
-}
-Expect response to be:
+Making an API call to this endpoint updates specified step for a given recipe with the specified id.
 
-Status: 200
+##### Required:
+* An id that corresponds to a recipe present in the database must be provided in the URL.
 
-{
-  "id": 9
-}
-/api/v1/albums
-To return all albums:
+* The number of the step to be updated must be provided in the URL.
 
-GET /api/v1/albums
+URL with specified ids:
+```url
+http://..../api/vi/recipes/1/steps/2
+```
 
-Expect response to be:
+--------------------------------
+## /api/v1/recipes/:recipe_id/steps
+### `DELETE`
 
-Status: 200
+Making an API call to this endpoint deletes the last step of the recipe with the specified id.
 
-[
-    {
-        "id": 1,
-        "title": "Queen",
-        "release_date": "1973",
-        "artist_id": 1,
-        "created_at": "2018-12-05T15:41:02.019Z",
-        "updated_at": "2018-12-05T15:41:02.019Z"
-    },
-    {
-        "id": 2,
-        "title": "Queen II",
-        "release_date": "1974",
-        "artist_id": 1,
-        "created_at": "2018-12-05T15:41:02.019Z",
-        "updated_at": "2018-12-05T15:41:02.019Z"
-    },
-   ...
-]
-To return all albums from an artist of your choice:
+##### Required:
+An id that corresponds to a recipe present in the database must be provided in the URL.
 
-GET /api/v1/albums/:id
+URL with specified id:
+```url
+http://..../api/vi/recipes/1/steps
+``` 
 
-You must pass the album id in as a parameter to the endpoint.
 
-Expect response to be:
 
-Status: 200
 
-[
-    {
-        "id": 5,
-        "title": "A Day At The Races",
-        "release_date": "1976",
-        "artist_id": 1,
-        "created_at": "2018-12-05T15:41:02.021Z",
-        "updated_at": "2018-12-05T15:41:02.021Z"
-    }
-]
-To add an artist:
 
-To add an album to an artist of your choice:
 
-POST /api/v1/albums
 
-Body of request must be in JSON format with the following properties:
 
-{
-    "title":[string],
-    "release_date":[boolean]
-}
-Expect response to be:
 
-Status: 201
 
-{
-  "id": 9
-}
-To delete an album:
-
-DELETE /api/v1/albums/:id
-
-You must pass the album id in as a parameter to the endpoint.
-
-Expect response to be:
-
-Status: 201
-
-{
-  "id": 4
-}
-To edit an album of your choice:
-
-PUT /api/v1/albums/:id
-
-You must the album id in as a parameter to the endpoint.
-
-Body of request must be in JSON format with the following properties:
-
-{
-    "title":[string],
-    "release_date":[boolean]
-}
-Expect response to be:
-
-Status: 200
-
-{
-  "id": 8
-}
-Contributors
-Haley Jacobs & Laura Shamus
-
-### Collaborators
+### Contributors 
 
 Loryn Mason GITHUB: [@lorynmason](https://github.com/lorynmason) 
 
