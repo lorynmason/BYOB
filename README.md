@@ -132,10 +132,49 @@ http://..../api/breweries/?city=Denver
 ```
 
 --------------------------------
+## /api/breweries/:id
+### `GET`
+
+Making an API call to this endpoint returns a breewery with the specified id.
+
+* brewery id
+* brewery name
+* brewery city
+* whether or not the brewery serves food 
+* whether or not the brewery is dog friendly
+* whether or not the brewery has outdoor seating
+* brewery website
+* creation timestamp
+* update timestamp
+
+##### Required:
+An id that corresponds to a brewery present in the database must be provided in the URL to return the desired JSON.
+
+URL with specified id:
+```url
+http://..../api/breweries/29
+```
+##### Example of returned JSON:
+
+```json
+{
+  "id": 29,
+   "name": "Odell Brewing Company",
+   "city": "Denver",
+   "food": "yes",
+   "dog_friendly": "yes",
+   "outdoor_seating": "yes",
+   "website": "www.odellbrewing.com",
+   "created_at": "2019-01-29T17:08:02.608Z",
+   "updated_at": "2019-01-29T17:08:02.608Z"
+ }
+```
+
+--------------------------------
 ## /api/breweries/:id/beers
 ### `GET`
 
-Making an API call to this endpoint returns all beers for the breewery with the specified id.
+Making an API call to this endpoint returns all beers for the brewery with the specified id.
 
 Data returned for each beer:
 * beer id
@@ -194,6 +233,56 @@ Corresponding brewery:
 }]
 ```
 
+## /api/breweries/
+### `POST`
+
+Making an API call to this endpoint adds a brewery to the database.
+
+##### Required:
+A correctly formatted brewery object must be provided in the request body in order to `post` to the database. 
+
+##### Example of correctly formatted brewery object:
+```
+{ name: <STRING>, city: <STRING>, food: <STRING>, dog_friendly: <STRING>, outdoor_seating: <STRING>, website: <STRING>  }
+```
+```javascript
+{
+  "name": "Vail Brewing Company",
+  "city": "Vail",
+  "food": "yes",
+  "dog_friendly": "yes",
+  "outdoor_seating": "no",
+  "website": "www.vailbrewingco.com/", 
+}
+```
+
+--------------------------------
+## /api/breweries/:id
+### `PUT`
+
+Making an API call to this endpoint updates brewery properties of the brewery with the specified id.
+
+##### Required:
+An id that corresponds to a brewery present in the database must be provided in the URL.
+
+URL with specified id:
+```url
+http://..../api/breweries/1
+```
+
+## /api/breweries/:id
+### `DELETE`
+
+Making an API call to this endpoint deletes the brewery with the specified id.
+
+##### Required:
+An id that corresponds to a brewery present in the database must be provided in the URL.
+
+URL with specified id:
+```url
+http://..../api/breweries/1
+```
+
 --------------------------------
 ## /api/beers
 ### `GET`
@@ -243,252 +332,96 @@ Data returned for each recipe:
     "updated_at": "2019-01-29T17:08:02.628Z"
   }]
 ```
-
-### `POST`
-
-Making an API call to this endpoint adds a recipe to the database.
-
-##### Required:
-A correctly formatted recipe object must be provided in the request body in order to `post` to the database. 
-
-##### Example of correctly formatted recipe object:
-```
-{ recipe_name: <STRING>, ingredients: <ARRAY>, steps: <ARRAY> }
-```
-```javascript
-{
-  recipe_name: 'brownie banana bread',
-  ingredients: [
-    {ingredient_name:'Betty Crocker Milk Chocolate brownie mix', aisle: 'baking'}, 
-    {ingredient_name:'bananas', aisle: 'produce'}, 
-    {ingredient_name:'butter', aisle: 'dairy'}, 
-    {ingredient_name:'eggs', aisle: 'dairy'}, 
-    {ingredient_name:'heavy whipping cream', aisle: 'dairy'}, 
-    {ingredient_name:'mini chocolate chips', aisle: 'baking'}, 
-  ],
-  steps: [
-    'preheat oven to 350 degrees F',
-    'line an 8x5-inch loaf pan with parchment paper',
-    'spray the bottom only with cooking spray',
-    'put the brownie mix in a medium bowl',
-    'stir in mashed bananas, butter, eggs, and whipping cream just until combined',
-    'stir in 1 cup of the chocolate chips',
-    'pour the batter into the prepared pan and spread evenly',
-    'sprinkle the remaining chocolate chips on top',
-    'bake 75 to 90 minutes or until a toothpick inserted into the center comes out clean',
-    'cover the bread loosely with foil at about the 1 hour mark to avoid over-browning or burning on top',
-    'cool 20 minutes, then remove the loaf from the pan to a cooling rack until completely cooled'
-  ],
-}
-```
-
 --------------------------------
-## /api/v1/recipes/:id/ingredients
+## /api/beers/:id
 ### `GET`
 
-Making an API call to this endpoint returns all ingredients for the recipe with the specified id given.
+Making an API call to this endpoint returns a beer with the specified id
 
-Data returned for each ingredient includes:
-* ingredient id
-* ingredient name
-* aisle where ingredient can be located in grocery store
+Data returned the beer includes:
+* beer id
+* beer name
+* beer style
+* beer abv
+* beer availability
+* corresponding brewery id
 * creation timestamp
 * update timestamp
 
 ##### Required:
-An id that corresponds to a recipe present in the database must be provided in the URL to return the desired JSON.
+An id that corresponds to a beer present in the database must be provided in the URL to return the desired JSON.
 
 URL with specified id:
 ```url
-http://..../api/vi/recipes/1/ingredients
-```
-
-Corresponding recipe:
-```json
-{
-  "id": 1,
-  "recipe_name": "billy's bootastic bacon & eggs",
-  "created_at": "2018-12-06T18:40:50.886Z",
-  "updated_at": "2018-12-06T18:40:50.886Z"
-}
+http://..../api/beers/14
 ```
 
 ##### Example of returned JSON:
 ```json
-[
-  {
-    "id": 1,
-    "ingredient_name": "eggs",
-    "aisle": "dairy",
-    "created_at": "2018-12-06T18:40:50.931Z",
-    "updated_at": "2018-12-06T18:40:50.931Z"
-  },
-  {
-    "id": 2,
-    "ingredient_name": "salt",
-    "aisle": "spices",
-    "created_at": "2018-12-06T18:41:50.931Z",
-    "updated_at": "2018-12-06T18:41:50.931Z"
-  },
-  {
-    "id": 3,
-    "ingredient_name": "black pepper",
-    "aisle": "spices",
-    "created_at": "2018-12-06T18:42:50.931Z",
-    "updated_at": "2018-12-06T18:42:50.931Z"
-  }
-]
+{ 
+  "id": 14,
+  "name": "Wanda Mae's Peach Pie",
+  "style": "American Brown Ale",
+  "abv": "5.0",
+  "availability": "Rotating",
+  "brewery_id": 26,
+  "created_at": "2019-01-29T17:08:02.623Z",
+  "updated_at": "2019-01-29T17:08:02.623Z"
+}
 ```
 
 --------------------------------
-## /api/v1/recipes/:id/steps
-### `GET`
-
-Making an API call to this endpoint provides all steps for the recipe with the specified id.
-
-Data returned for each step includes:
-* step id
-* step text
-* recipe id
-
-##### Required:
-An id that corresponds to a recipe present in the database must be provided in the URL to return the desired JSON.
-
-URL with specified id:
-```url
-http://..../api/vi/recipes/1/steps
-```
-
-Corresponding recipe:
-```json
-{
-  "id": 1,
-  "recipe_name": "billy's bootastic bacon & eggs",
-  "created_at": "2018-12-06T18:40:50.886Z",
-  "updated_at": "2018-12-06T18:40:50.886Z"
-}
-```
-
-##### Example of returned JSON:
-```json
-[
-  {
-    "id": 1,
-    "step_text": "crack eggs over bowl, being careful not to let any shells fall into bowl",
-    "recipe_id": 1
-  },
-  {
-    "id": 2,
-    "step_text": "scramble eggs with fork or whisk until all yolks are broken and mixed with egg whites",
-    "recipe_id": 1
-  },
-  {
-    "id": 3,
-    "step_text": "season with salt and black pepper",
-    "recipe_id": 1
-  },
-  {
-    "id": 4,
-    "step_text": "pour mixture into skillet heated to medium on stovetop",
-    "recipe_id": 1
-  },
-  {
-    "id": 5,
-    "step_text": "continue stirring in skillet until desired texture is reached",
-    "recipe_id": 1
-  },
-]
-```
-
+## /api/beers
 ### `POST`
 
-Making an API call to this endpoint adds a step to the recipe in the database with the specified id.
+Making an API call to this endpoint adds a beer to the database
 
 ##### Required:
-* An id that corresponds to a recipe present in the database must be provided in the URL.
+* A correctly formatted beer object must be provided in the request body in order to `post` to the database.
 
-* A correctly formatted step object must be provided in the request body in order to `post` to the database.
-
-URL with specified id:
-```url
-http://..../api/vi/recipes/1/steps
+##### Example of correctly formatted beer object:
 ```
-
-Corresponding recipe:
-```json
-{
-  "id": 1,
-  "recipe_name": "billy's bootastic bacon & eggs",
-  "created_at": "2018-12-06T18:40:50.886Z",
-  "updated_at": "2018-12-06T18:40:50.886Z"
-}
-```
-
-##### Example of correctly formatted step object:
-```
-{ step_text: <STRING> }
+{ name: <STRING>, style: <STRING>, abv: <STRING>, availability: <STRING> }
 ```
 ```javascript
 {
-  step_text: 'add cheese if desired'
+  "name": "Tripel",
+  "style": "Belgian Tripel",
+  "abv": "7.8",
+  "availability": "Year-Round"
 }
 ```
 
 --------------------------------
-## /api/v1/recipes/:id
+## /api/beers/:id
 ### `PUT`
 
-Making an API call to this endpoint updates recipe name of the recipe with the specified id.
+Making an API call to this endpoint updates beer properties of the beer with the specified id.
 
 ##### Required:
-An id that corresponds to a recipe present in the database must be provided in the URL.
+An id that corresponds to a beer present in the database must be provided in the URL.
 
 URL with specified id:
 ```url
-http://..../api/vi/recipes/1
+http://..../api/beers/1
 ```
 
+## /api/beers/:id
 ### `DELETE`
 
-Making an API call to this endpoint deletes the recipe with the specified id.
+Making an API call to this endpoint deletes the beer with the specified id.
 
 ##### Required:
-An id that corresponds to a recipe present in the database must be provided in the URL.
+An id that corresponds to a beer present in the database must be provided in the URL.
 
 URL with specified id:
 ```url
-http://..../api/vi/recipes/1
+http://..../api/beers/1
 ```
 
 --------------------------------
-## /api/v1/recipes/:recipe_id/steps/:step_num
-### `PUT`
 
-Making an API call to this endpoint updates specified step for a given recipe with the specified id.
 
-##### Required:
-* An id that corresponds to a recipe present in the database must be provided in the URL.
-
-* The number of the step to be updated must be provided in the URL.
-
-URL with specified ids:
-```url
-http://..../api/vi/recipes/1/steps/2
-```
-
---------------------------------
-## /api/v1/recipes/:recipe_id/steps
-### `DELETE`
-
-Making an API call to this endpoint deletes the last step of the recipe with the specified id.
-
-##### Required:
-An id that corresponds to a recipe present in the database must be provided in the URL.
-
-URL with specified id:
-```url
-http://..../api/vi/recipes/1/steps
-``` 
 
 
 
