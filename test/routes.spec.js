@@ -43,6 +43,35 @@ describe('API Routes', () => {
       });
     })
 
+    it('should GET: happy: return all the breweries that match search', (done) => {
+      chai
+      .request(server)
+      .get('/api/breweries?city=portland')
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('array');
+        response.body.length.should.equal(1);
+        response.body[0].should.have.property('id');
+        response.body[0].should.have.property('name');
+        response.body[0].should.have.property('city');
+        response.body[0].should.have.property('food');
+        response.body[0].should.have.property('dog_friendly');
+        response.body[0].should.have.property('website');    
+        done();
+      });
+    })
+
+    it('should GET: sad: return all the breweries that match search', (done) => {
+      chai
+      .request(server)
+      .get('/api/breweries?city=pizza')
+      .end((err, response) => {
+        response.should.have.status(422);    
+        done();
+      });
+    })
+
     it('should DELETE: happy: delete a single brewery', done => {
       chai.request(server)
       .delete('/api/breweries/2')

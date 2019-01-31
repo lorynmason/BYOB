@@ -18,7 +18,11 @@ app.get('/api/breweries', (request, response) => {
     if(query.city) {
       database('breweries').where('city', query.city).select()
         .then((breweries) => {
-          response.status(200).json(breweries)
+          if(breweries.length > 0) {
+            response.status(200).json(breweries)
+          } else {
+            response.status(422).send('No breweries in that city')
+          }
         })
         .catch((error) => {
           response.status(500).json({ error });
