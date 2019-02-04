@@ -1,4 +1,5 @@
-# Getting Started
+# :beers::beer::beers::beer::beers::beer::beers::beer::beers::beers::beer::beers::beer::beers::beer::beers::beer::beers:
+# Getting Started :beers:
 * A macOS guide
 
 ### Dependencies
@@ -80,3 +81,5 @@ NODE_ENV=test knex seed:run
 run `npm test` to see results
 
 You can reference the knexfile.js to confirm.
+
+# :beers::beer::beers::beer::beers::beer::beers::beer::beers::beers::beer::beers::beer::beers::beer::beers::beer::beers:
