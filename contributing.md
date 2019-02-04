@@ -9,7 +9,7 @@
 
 ### Get it
 
-If you're planning on contributing code to the project (which we [LOVE](CONTRIBUTING.md)), it is a good idea to begin by forking this repo using the `Fork` button in the top-right corner of this screen. You should then be able to use `git clone` to copy your fork onto your local machine.
+If you're planning on [contributing](contributing.md) code to the project, it is a good idea to begin by forking this repo using the `Fork` button in the top-right corner of this screen. You should then be able to use `git clone` to copy your fork onto your local machine.
 
     `git clone 
     `git clone https://github.com/lorynmason/BYOB.git``
