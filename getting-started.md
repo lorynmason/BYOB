@@ -20,7 +20,7 @@ Jump into your new local copy of the Open Food Network:
 
 And then add an `upstream` remote that points to the main repo:
 
-    `git remote add upstream https://github.com/bottd/fridgemaster`
+    `git remote add upstream git clone https://github.com/lorynmason/BYOB.git`
 
 Fetch the latest version of `master` from `upstream` (ie. the main repo):
 
