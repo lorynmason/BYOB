@@ -1,6 +1,7 @@
+# :beers::beer::beers::beer::beers::beer::beers::beer::beers::beers::beer::beers::beer::beers::beer::beers::beer::beers:
 # Colorado Brews API
 
-## About the API
+## About the API :beers:
 BYOB is an API that provides data about breweries in Denver and the beers that they carry. Users can add data to the API through POST requests, delete data with DELETE requests, and edit data with PUT requests.
 
 [Installation Instructions](getting-started.md)
@@ -402,3 +403,5 @@ http://..../api/beers/1
 Loryn Mason GITHUB: [@lorynmason](https://github.com/lorynmason) 
 
 Ashley Levi GITHUB: [@ashleylevi](https://github.com/ashleylevi)
+
+# :beers::beer::beers::beer::beers::beer::beers::beer::beers::beers::beer::beers::beer::beers::beer::beers::beer::beers:
