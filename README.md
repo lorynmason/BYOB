@@ -3,44 +3,9 @@
 ## About the API
 BYOB is an API that provides data about breweries in Denver and the beers that they carry. Users can add data to the API through POST requests, delete data with DELETE requests, and edit data with PUT requests.
 
-### In order to use the api, you must have the following installed:
-Node.js
-NPM
+[Installation Instructions](getting_started.md)
 
-### Installation
-* Clone down this repo
-* git clone https://github.com/lorynmason/BYOB.git
-* Next install dependencies
-* npm install
-
-#### This will install
-* Express, Body-parser, Knex, PostgreSQL Database, Mocha, Chai, Chai HTTP
-Start the server with node server.js (or nodemon if you have it installed).
-
-* Create local database
-* Create database in PostgreSQL:
-* psql
-* CREATE DATABASE colorado_brews;
-
-#### Run migrations using:
-* knex migrate:latest
-* Seed database:
-* knex seed:run
-
-#### Running Tests
-* Create local testing environment
-* Create test database in PostgreSQL:
-* psql
-* CREATE DATABASE byob_tests;
-
-#### Run migrations using:
-* NODE_ENV=test knex migrate:latest
-
-#### Seed test database:
-* NODE_ENV=test knex seed:run
-
-#### To run the test suite
-* npm run test
+[How to Contribute](contributing.md)
 
 --------------------------------
 ## /api/breweries
