@@ -50,4 +50,4 @@ Overall:
 * Use a style consistent with the rest of the codebase
 * Before submitting, rebase your work on the current master branch
 
-# :beers::beer::beers::beer::beers::beer::beers::beer::beers:
+# :beers::beer::beers::beer::beers::beer::beers::beer::beers::beers::beer::beers::beer::beers::beer::beers::beer::beers:
