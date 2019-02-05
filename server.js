@@ -139,7 +139,7 @@ app.delete('/api/breweries/:id', (request, response) => {
         response.status(501).json({error})
       })
     })
-})
+});
 
 app.get('/api/beers', (request, response) => {
   database('beers').select()
