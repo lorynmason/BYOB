@@ -17,11 +17,11 @@ If you're planning on [contributing](contributing.md) code to the project, it is
 
 Jump into your new local copy of the BYOB:
 
-   ```cd BYOB```
+   cd BYOB
 
 And then add an `upstream` remote that points to the main repo:
 
-    ```git remote add upstream https://github.com/lorynmason/BYOB.git```
+    git remote add upstream https://github.com/lorynmason/BYOB.git
 
 Fetch the latest version of `master` from `upstream` (ie. the main repo):
 
@@ -29,7 +29,7 @@ git fetch upstream master
 
 Install your node dependencies by running
 
-```$ npm i```
+$ npm i
 
 This will install:
 ```
