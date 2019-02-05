@@ -63,7 +63,7 @@ $ knex seed:run
 To setup your testing database
 
 ```
-$ psql -c "CREATE DATABASE tests"
+$ psql -c "CREATE DATABASE boyb_tests"
 ```
 
 Run migrations using
