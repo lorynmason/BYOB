@@ -105,6 +105,21 @@ app.put('/api/breweries/:id', (request, response) => {
     })
 });
 
+app.patch('/api/breweries/:id', (request, response) => {
+  const { id } = request.params
+  const { name, city, food, dog_friendly, outdoor_seating, website } = request.body
+  const updatedBrewery = { name, city, food, dog_friendly, outdoor_seating, website }
+
+  database('breweries').where('id', id)
+   .update(updatedBrewery)
+   .then((id) => {
+     response.status(200).json({id})
+   })
+   .catch(error => {
+     response.status(500).json({ error: error.message })
+   })
+});
+
 app.delete('/api/breweries/:id', (request, response) => {
   const breweryId = parseInt(request.params.id)
   database('beers')
