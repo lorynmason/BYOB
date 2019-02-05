@@ -15,9 +15,9 @@ If you're planning on [contributing](contributing.md) code to the project, it is
     `git clone 
     `git clone https://github.com/lorynmason/BYOB.git``
 
-Jump into your new local copy of the Open Food Network:
+Jump into your new local copy of the BYOB:
 
-    `cd fridgemaster`
+    `cd BYOB`
 
 And then add an `upstream` remote that points to the main repo:
 
