@@ -31,7 +31,9 @@ git fetch upstream master
 
 Install your node dependencies by running
 
+```
 $ npm i
+```
 
 This will install:
 ```
