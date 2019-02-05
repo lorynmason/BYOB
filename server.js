@@ -111,13 +111,16 @@ app.patch('/api/breweries/:id', (request, response) => {
   const updatedBrewery = { name, city, food, dog_friendly, outdoor_seating, website }
 
   database('breweries').where('id', id)
-   .update(updatedBrewery)
-   .then((id) => {
-     response.status(200).json({id})
-   })
-   .catch(error => {
-     response.status(500).json({ error: error.message })
-   })
+  .update(updatedBrewery)
+  .then(() => {
+    database('breweries').where('id', id)
+      .then(foundBrewery => {
+        response.status(200).json({...foundBrewery[0]})
+      })
+  })
+  .catch(error => {
+    response.status(500).json({ error: error.message })
+  });
 });
 
 app.delete('/api/breweries/:id', (request, response) => {

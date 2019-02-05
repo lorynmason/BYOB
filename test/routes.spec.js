@@ -134,23 +134,61 @@ describe('API Routes', () => {
     })
   })
 
-    it('should POST: sad: fail to add a brewery', done => {
-      chai.request(server)
-      .post('/api/breweries')
-      .send({brewery: {
-        name: 'Odell',
-        city: 'Fort Collins',
-        food: 'yes',
-        dog_friendly: 'yes',
-        outdoor_seating: 'no'
-        }
+  it('should POST: sad: fail to add a brewery', done => {
+    chai.request(server)
+    .post('/api/breweries')
+    .send({brewery: {
+      name: 'Odell',
+      city: 'Fort Collins',
+      food: 'yes',
+      dog_friendly: 'yes',
+      outdoor_seating: 'no'
+      }
+    })
+    .set('Content-Type', 'application/json')
+    .end((error, response) => {
+      response.should.have.status(422)
+      response.body.should.have.property('error');
+      response.body.error.should.equal('Expected format: {name: <string>, city: <string>, food: <string>, dog_friendly: <string>, outdoor_seating: <string>, website: <string>}. You\'re missing a "website" property');
+      done();
+    })
+  })
+
+  it('should PATCH: happy: update a brewery', done => {
+    chai.request(server)
+      .patch('/api/breweries/2')
+      .send({
+        name: 'Super Awesome Brewing Company'
       })
-      .set('Content-Type', 'application/json')
       .end((error, response) => {
-        response.should.have.status(422)
-        response.body.should.have.property('error');
-        response.body.error.should.equal('Expected format: {name: <string>, city: <string>, food: <string>, dog_friendly: <string>, outdoor_seating: <string>, website: <string>}. You\'re missing a "website" property');
-        done();
+        response.should.have.status(200)
+        response.body.should.be.a('object')
+        response.body.should.have.property('id')
+        response.body.id.should.equal(2)
+        response.body.id.should.be.a('number')
+        response.body.should.have.property('name')
+        response.body.name.should.equal('Super Awesome Brewing Company')
+        response.body.name.should.be.a('string')
+        response.body.should.have.property('city')
+        response.body.city.should.equal('Denver')
+        response.body.city.should.be.a('string')
+        response.body.should.have.property('food')
+        response.body.food.should.equal('yes')
+        response.body.food.should.be.a('string')
+        response.body.should.have.property('dog_friendly')
+        response.body.dog_friendly.should.equal('yes')
+        response.body.dog_friendly.should.be.a('string')
+        response.body.should.have.property('outdoor_seating')
+        response.body.outdoor_seating.should.equal('yes')
+        response.body.outdoor_seating.should.be.a('string')
+        response.body.should.have.property('website') 
+        response.body.website.should.equal('www.rouge.com')
+        response.body.website.should.be.a('string')
+        response.body.should.have.property('created_at')
+        response.body.created_at.should.be.a('string')
+        response.body.should.have.property('updated_at')
+        response.body.updated_at.should.be.a('string')
+        done()
       })
     })
   })
