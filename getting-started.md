@@ -17,7 +17,9 @@ If you're planning on [contributing](contributing.md) code to the project, it is
 
 Jump into your new local copy of the BYOB:
 
+   ```
    cd BYOB
+   ```
 
 And then add an `upstream` remote that points to the main repo:
 
