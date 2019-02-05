@@ -197,11 +197,11 @@ app.patch('/api/beers/:id', (request, response) => {
         .then((updatedBeer) => {
           response.status(202).send({message: updatedBeer})
         })
-        .catch(error => {
-          response.status(500).json(error)
+        .catch(() => {
+          response.status(422).send({message: 'Expected Format: { name: <string>, style: <string>, abv: <string>, availability: <string>.'})
         })
       } else {
-        response.status(422).send({message: 'Expected Format: { name: <string>, style: <string>, abv: <string>, availability: <string>.'})
+          response.status(500).json(error)
       }
     })
     .catch(error => {
