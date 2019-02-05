@@ -12,16 +12,16 @@
 
 If you're planning on [contributing](contributing.md) code to the project, it is a good idea to begin by forking this repo using the `Fork` button in the top-right corner of this screen. You should then be able to use `git clone` to copy your fork onto your local machine.
 
-    `git clone 
-    `git clone https://github.com/lorynmason/BYOB.git``
+    ```git clone 
+    git clone https://github.com/lorynmason/BYOB.git```
 
 Jump into your new local copy of the BYOB:
 
-    `cd BYOB`
+   ```cd BYOB```
 
 And then add an `upstream` remote that points to the main repo:
 
-    `git remote add upstream https://github.com/lorynmason/BYOB.git`
+    ```git remote add upstream https://github.com/lorynmason/BYOB.git```
 
 Fetch the latest version of `master` from `upstream` (ie. the main repo):
 
@@ -29,7 +29,7 @@ git fetch upstream master
 
 Install your node dependencies by running
 
-`$ npm i`
+```$ npm i```
 
 This will install:
 ```
