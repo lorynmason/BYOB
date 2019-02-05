@@ -12,8 +12,8 @@
 
 If you're planning on [contributing](contributing.md) code to the project, it is a good idea to begin by forking this repo using the `Fork` button in the top-right corner of this screen. You should then be able to use `git clone` to copy your fork onto your local machine.
 
-    ```git clone 
-    git clone https://github.com/lorynmason/BYOB.git```
+    git clone 
+    git clone https://github.com/lorynmason/BYOB.git
 
 Jump into your new local copy of the BYOB:
 
