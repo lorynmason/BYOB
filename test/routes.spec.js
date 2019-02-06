@@ -310,6 +310,44 @@ describe('API Routes', () => {
         done()
       })
     })
+
+    it('should PATCH: happy: edit a beer with only some changes', (done) => {
+      chai.request(server)
+      .patch('/api/beers/1')
+      .send({
+        style: 'sour',  
+        name: 'Summer Brew',
+        })
+      .end((err, response) => {
+        response.should.have.status(202);
+        done()
+      })
+    })
+
+    it('should PATCH: sad: not edit if not in correct format', (done) => {
+      chai.request(server)
+      .patch('/api/beers/1')
+      .send({
+        bob: 'something'
+      })
+      .end((err, response) => {
+        response.should.have.status(422)
+        done()
+      })
+    })
+
+    it('should PATCH: sad: return a 404 if there is not a matching id', (done) => {
+      chai.request(server)
+      .patch('/api/beers/156789765678')
+      .send({
+        style: 'sour'
+      })
+      .end((err, response) => {
+        response.should.have.status(404)
+        done()
+      })
+    })
+
   })
 
   describe('/api/breweries/:id', () => {

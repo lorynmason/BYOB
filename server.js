@@ -203,6 +203,32 @@ app.put('/api/beers/:id', (request, response) => {
     })
 });
 
+app.patch('/api/beers/:id', (request, response) => {
+  const { id } = request.params
+  const updatedBeerInfo = request.body
+  const { name, style, abv, availability } = request.body
+
+  database('beers').where('id', id).select()
+    .then(beer => {
+      if(!beer[0].id) { 
+        throw new Error('The beer does not exist.');
+      } else if (updatedBeerInfo) {
+        database('beers').where('id', id).update({name, style, abv, availability}, '*')
+        .then((updatedBeer) => {
+          response.status(202).send({message: updatedBeer})
+        })
+        .catch(() => {
+          response.status(422).send({message: 'Expected Format: { name: <string>, style: <string>, abv: <string>, availability: <string>.'})
+        })
+      } else {
+          response.status(500).json(error)
+      }
+    })
+    .catch(error => {
+      response.status(404).send({message: `Beer ${id} does not exist.`})
+    })
+})
+
 app.delete('/api/beers/:id', (request, response) => {
   const beerId = parseInt(request.params.id)
   database('beers').where('id', beerId).delete()
