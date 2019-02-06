@@ -12,8 +12,8 @@
 
 If you're planning on [contributing](contributing.md) code to the project, it is a good idea to begin by forking this repo using the `Fork` button in the top-right corner of this screen. You should then be able to use `git clone` to copy your fork onto your local machine.
 
-    git clone 
-    git clone https://github.com/lorynmason/BYOB.git
+ 
+    git clone https://github.com/yourusernamehere/BYOB.git
 
 Jump into your new local copy of the BYOB:
 
@@ -54,7 +54,8 @@ First, start the server with ``` node server.js ``` or ``` nodemon server.js ```
 Next, you need to create the database user the app will use by manually typing the following in your terminal:
 
 ```sh
-$ sudo -u postgres psql -c "CREATE DATABASE colorado_brews"
+$ psql 
+$ "CREATE DATABASE colorado_brews"
 ```
 
 To setup and seed database run these knex commands
@@ -67,7 +68,8 @@ $ knex seed:run
 To setup your testing database
 
 ```
-$ psql -c "CREATE DATABASE boyb_tests"
+$ psql
+$ "CREATE DATABASE boyb_tests"
 ```
 
 Run migrations using
