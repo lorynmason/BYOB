@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
+const cors = require('cors');
 
 app.use( bodyParser.json() );
+app.use( cors() );
 
 app.use(express.static('public'));
 
@@ -105,6 +107,24 @@ app.put('/api/breweries/:id', (request, response) => {
     })
 });
 
+app.patch('/api/breweries/:id', (request, response) => {
+  const { id } = request.params
+  const { name, city, food, dog_friendly, outdoor_seating, website } = request.body
+  const updatedBrewery = { name, city, food, dog_friendly, outdoor_seating, website }
+
+  database('breweries').where('id', id)
+  .update(updatedBrewery)
+  .then(() => {
+    database('breweries').where('id', id)
+      .then(foundBrewery => {
+        response.status(200).json({...foundBrewery[0]})
+      })
+  })
+  .catch(error => {
+    response.status(500).json({ error: error.message })
+  });
+});
+
 app.delete('/api/breweries/:id', (request, response) => {
   const breweryId = parseInt(request.params.id)
   database('beers')
@@ -121,7 +141,7 @@ app.delete('/api/breweries/:id', (request, response) => {
         response.status(501).json({error})
       })
     })
-})
+});
 
 app.get('/api/beers', (request, response) => {
   database('beers').select()
