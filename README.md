@@ -4,6 +4,8 @@
 ## About the API :beers:
 BYOB is an API that provides data about breweries in Denver and the beers that they carry. Users can add data to the API through POST requests, delete data with DELETE requests, and edit data with PUT requests.
 
+See the deployed app [here](https://colorado-brews.herokuapp.com/api/breweries)
+
 [Installation Instructions](getting-started.md)
 
 [How to Contribute](contributing.md)
